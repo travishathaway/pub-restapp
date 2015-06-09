@@ -35,5 +35,5 @@ from .restapi import (
 
 # Register all the routes in your REST API
 api.add_resource(Index, '/')
-api.add_resource(User, '/user/<user_id>')
-api.add_resource(UserList, '/user')
+api.add_resource(User, '/user/<user_id>', endpoint='user')
+api.add_resource(UserList, '/user', endpoint='userlist')
