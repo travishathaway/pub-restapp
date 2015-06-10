@@ -10,6 +10,7 @@ app.config.from_pyfile('config.py')
 # Create your restapi object
 api = restful.Api(app)
 
+
 # Code for the database
 def get_db():
     """
@@ -20,6 +21,7 @@ def get_db():
     if db is None:
         db = g._database = sqlite3.connect(app.config['DB_LOCATION'])
     return db
+
 
 # This ensures we always commit our transaction and close the db connection
 @app.teardown_appcontext

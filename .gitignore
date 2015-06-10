@@ -55,3 +55,9 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Application database
+restapp.db
+
+# Vim files
+*.swp
