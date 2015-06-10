@@ -66,7 +66,6 @@ class User(BaseResource):
                 params.append(user_id)
                 update_str = ', '.join(updates)
                 sql_string = 'UPDATE users SET {} WHERE id = ?'.format(update_str)
-                print sql_string
                 self.cursor.execute(sql_string, params)
         else:
             # User not found
