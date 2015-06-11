@@ -118,7 +118,7 @@ class UserList(BaseResource):
         try:
             self.cursor.execute(
                 "INSERT INTO users (username, email, favorite_color) VALUES (?, ?, ?)",
-                    username, email, favorite_color
+                    [username, email, favorite_color]
             )
         except sqlite3.IntegrityError:
             return {
@@ -126,7 +126,8 @@ class UserList(BaseResource):
             }, 400
 
         res = self.cursor.execute(
-            "SELECT id, username, email, favorite_color FROM users WHERE username = ?", username
+            "SELECT id, username, email, favorite_color FROM users WHERE username = ?",
+            [username, ]
         )
         row = res.fetchone()
         self.cursor.close()
