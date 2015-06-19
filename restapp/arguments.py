@@ -11,7 +11,7 @@ create_user_parser.add_argument(
     'email', type=str, required=True
 )
 create_user_parser.add_argument(
-    'favorite_color', type=str
+    'favorite_color', type=ch.check_color
 )
 
 # Update User Parser
@@ -20,5 +20,5 @@ update_user_parser.add_argument(
     'email', type=str
 )
 update_user_parser.add_argument(
-    'favorite_color', type=str
+    'favorite_color', type=ch.check_color
 )

@@ -2,6 +2,7 @@ import sqlite3
 from flask.ext.restful import Resource, abort, fields, marshal_with
 from .arguments import create_user_parser, update_user_parser
 from .app import get_db
+from .database import create_user, update_user
 
 
 class BaseResource(Resource):
@@ -53,20 +54,7 @@ class User(BaseResource):
         row = res.fetchone()
 
         if row:
-            # Update user
-            updates = []
-            params = []
-            if args.get('email'):
-                updates.append("email = ?")
-                params.append(args.get('email'))
-            if args.get('favorite_color'):
-                updates.append("favorite_color = ?")
-                params.append(args.get('favorite_color'))
-            if updates:
-                params.append(user_id)
-                update_str = ', '.join(updates)
-                sql_string = 'UPDATE users SET {} WHERE id = ?'.format(update_str)
-                self.cursor.execute(sql_string, params)
+            update_user(user_id, args)
 
             return self.get(user_id)
 
@@ -114,30 +102,4 @@ class UserList(BaseResource):
         Create a new user
         """
         args = create_user_parser.parse_args()
-        username = args.get('username')
-        email = args.get('email')
-        favorite_color = args.get('favorite_color')
-
-        try:
-            self.cursor.execute(
-                "INSERT INTO users (username, email, favorite_color) VALUES (?, ?, ?)",
-                    [username, email, favorite_color]
-            )
-        except sqlite3.IntegrityError:
-            return {
-                'message': 'User with provided username already exists'
-            }, 400
-
-        res = self.cursor.execute(
-            "SELECT id, username, email, favorite_color FROM users WHERE username = ?",
-            [username, ]
-        )
-        row = res.fetchone()
-        self.cursor.close()
-
-        return {
-            'id': row[0],
-            'username': row[1],
-            'email': row[2],
-            'favorite_color': row[3]
-        }
+        return create_user(args)
