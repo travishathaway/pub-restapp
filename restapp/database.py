@@ -4,7 +4,7 @@ from .app import app, get_db
 
 def init_db():
     """
-    Initialize our database by create a couple tables
+    Initialize our database by creating a couple tables
     """
     with app.app_context():
         db = get_db().cursor()
@@ -29,7 +29,7 @@ def create_user(data):
     """
     Puts a user in our database
     :param data:
-    :return:
+    :return: Dictionary
     """
     cursor = get_db().cursor()
     try:
@@ -61,7 +61,7 @@ def update_user(user_id, data):
     """
     Updates a user in our database
     :param data:
-    :return:
+    :return: Dictionary
     """
     cursor = get_db().cursor()
 
